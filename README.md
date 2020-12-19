@@ -38,6 +38,6 @@ The reason to do it at the top level is because go:embed uses relative paths and
 
 Not yet. This still an experimental package and will need to solve some issues before becoming stable:
 
-[ ] Partials
+- [ ] Partials
 
 Syntax for partials requires it to start with underscode, however go:embed ignores files that start with underscore.
