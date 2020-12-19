@@ -3,6 +3,7 @@
 FSbox is a [`packd.Box`](https://github.com/gobuffalo/packd) implementation that uses go 1.16's `io/fs` package.
 
 ⚠️ This package only works with Go 1.16 or higher version of it.
+⚠️ This package still a WIP.
 ## Usage
 
 In your root folder create `files.go` with the following content:
