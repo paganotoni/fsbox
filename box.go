@@ -35,7 +35,7 @@ func New(fsys fs.FS, prefix string) *box {
 }
 
 func (bx *box) Open(path string) (http.File, error) {
-	f, err := bx.fsys.Open(bx.PathFor(path))
+	f, err := bx.fsys.Open(bx.pathFor(path))
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +68,7 @@ func (bx *box) List() []string {
 }
 
 func (bx *box) Find(path string) ([]byte, error) {
-	result, err := fs.ReadFile(bx.fsys, bx.PathFor(path))
+	result, err := fs.ReadFile(bx.fsys, bx.pathFor(path))
 	if err != nil {
 		return nil, err
 	}
@@ -148,7 +148,7 @@ func (bx *box) WalkPrefix(prefix string, wf packd.WalkFunc) error {
 }
 
 func (bx *box) Has(path string) bool {
-	matches, err := fs.Glob(bx.fsys, bx.PathFor(path))
+	matches, err := fs.Glob(bx.fsys, bx.pathFor(path))
 	if err != nil {
 		return false
 	}
@@ -157,7 +157,16 @@ func (bx *box) Has(path string) bool {
 	return found
 }
 
-func (bx *box) PathFor(base string) string {
+// pathFor translates the required path to accommodate
+// finding the file in the box. It does the following tricks
+// to help:
+// - Adds the box prefix in case not passed.
+// - Removes underscore from the file name to find partials.
+func (bx *box) pathFor(base string) string {
+
+	file := strings.TrimPrefix(filepath.Base(base), "_")
+	base = filepath.Join(filepath.Dir(base), file)
+
 	if strings.HasPrefix(base, bx.prefix) {
 		return base
 	}

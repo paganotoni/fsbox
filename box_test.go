@@ -152,3 +152,27 @@ func TestHas(t *testing.T) {
 		}
 	})
 }
+
+func TestPathFor(t *testing.T) {
+	b := New(fsys, "testdata")
+	t.Run("Regular", func(t *testing.T) {
+		path := b.pathFor("a.txt")
+		if path != "testdata/a.txt" {
+			t.Errorf("Should have been %v but got %v", "a.txt", path)
+		}
+	})
+
+	t.Run("With prefix", func(t *testing.T) {
+		path := b.pathFor("testdata/a.txt")
+		if path != "testdata/a.txt" {
+			t.Errorf("Should have been %v but got %v", "a.txt", path)
+		}
+	})
+
+	t.Run("Underscore", func(t *testing.T) {
+		path := b.pathFor("_a.txt")
+		if path != "testdata/a.txt" {
+			t.Errorf("Should have been %v but got %v", "a.txt", path)
+		}
+	})
+}
