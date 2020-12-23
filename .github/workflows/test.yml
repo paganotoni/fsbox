@@ -9,3 +9,5 @@ jobs:
       uses: actions/checkout@v2
     - name: Test
       run: go test ./...
+      env: 
+        CGO_ENABLED: 0
