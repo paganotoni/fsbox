@@ -1,3 +1,5 @@
+![Test](https://github.com/paganotoni/fsbox/workflows/Test/badge.svg)
+
 # FSbox
 
 FSbox is a [`packd.Box`](https://github.com/gobuffalo/packd) implementation that uses go 1.16's `io/fs` package.
