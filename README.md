@@ -8,10 +8,9 @@ FSbox is a [`packd.Box`](https://github.com/gobuffalo/packd) implementation that
 
 - ⚠️ This package only works with Go 1.16 or higher version of it.
 - ⚠️ This package can be used with Buffalo v0.16.18 or highest version.
-- ⚠️ This package may imply changing the structure of your Buffalo app, breaking some of generators functionality.
 ## Usage
 
-You need to have a variable that embeds your templates and public folder. 
+You need to have a variable that embeds your templates and public folder. Then use that variable to instantiate two fsbox.
 
 ```go
 package app
@@ -34,7 +33,7 @@ These two boxes will be used in your Buffalo application for plush templates and
     helpers["partialFeeder"] = app.TemplatesBox.FindString
     
     // Render engine initialization
-    Engine =render.New(render.Options{
+    Engine = render.New(render.Options{
 		HTMLLayout:   "application.plush.html",
 		TemplatesBox: app.TemplatesBox,
 		AssetsBox:    app.AssetsBox,
@@ -42,6 +41,11 @@ These two boxes will be used in your Buffalo application for plush templates and
 	})
 ...
 ```
+
+Defining the partialFeeder is an important step since the default partialFeeder that Buffalo uses adds an underscore prefix to partials, and the embed functionality seems not to support embedding underscore prefixed files.
+
+Another important part is to rename your partials without the underscore prefix, otherwise these will not be embedded in the binary.
+
 
 ```go
 // Serving assets
