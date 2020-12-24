@@ -5,14 +5,16 @@
 FSbox is a [`packd.Box`](https://github.com/gobuffalo/packd) implementation that uses go 1.16's `io/fs` package.
 
 ### Important
+
 - ⚠️ This package only works with Go 1.16 or higher version of it.
-- ⚠️ This package still a WIP, use with caution.
+- ⚠️ This package can be used with Buffalo v0.16.18 or highest version.
+- ⚠️ This package may imply changing the structure of your Buffalo app, breaking some of generators functionality.
 ## Usage
 
-In your root folder create `files.go` with the following content:
+You need to have a variable that embeds your templates and public folder. 
 
 ```go
-package myapp
+package app
 
 var (
     //go:embed templates public
@@ -24,24 +26,27 @@ var (
 )
 ```
 
-And then use it in your `actions/render` use these when creating your Render engine. (Or anywhere you want it.)
+These two boxes will be used in your Buffalo application for plush templates and assets serving as you can see next:
 
 ```go
-//p.e render.go
-var Engine = render.New(render.Options{
-	HTMLLayout:   "application.html",
-	TemplatesBox: app.TemplatesBox,
-	AssetsBox:    app.AssetsBox,
-	Helpers: map[string]interface{}{
-        ...
+...
+    // Adding custom partialFeeder
+    helpers["partialFeeder"] = app.TemplatesBox.FindString
+    
+    // Render engine initialization
+    Engine =render.New(render.Options{
+		HTMLLayout:   "application.plush.html",
+		TemplatesBox: app.TemplatesBox,
+		AssetsBox:    app.AssetsBox,
+		...
+	})
+...
 ```
 
-The reason to do it at the top level is because go:embed uses relative paths and [seems not to support .. expressions](https://go.googlesource.com/proposal/+/master/design/draft-embed.md#go_embed-directives).
-
+```go
+// Serving assets
+bapp.ServeFiles("/", app.AssetsBox)
+```
 ### Can I use this in Buffalo?
 
-Not yet. This still an experimental package and will need to solve some issues before becoming stable:
-
-- [ ] Partials
-
-Syntax for partials requires it to start with underscode, however go:embed ignores files that start with underscore.
+Yes, however this could imply some changes in your application layout and webpack configuration.
