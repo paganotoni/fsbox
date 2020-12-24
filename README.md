@@ -44,7 +44,7 @@ These two boxes will be used in your Buffalo application for plush templates and
 
 Defining the partialFeeder is an important step since the default partialFeeder that Buffalo uses adds an underscore prefix to partials, and the embed functionality seems not to support embedding underscore prefixed files.
 
-Another important part is to rename your partials without the underscore prefix, otherwise these will not be embedded in the binary.
+⚠️ Don't forget to rename your partials without the underscore prefix, otherwise these will not be embedded in the binary.
 
 
 ```go
