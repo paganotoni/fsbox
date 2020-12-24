@@ -161,12 +161,7 @@ func (bx *box) Has(path string) bool {
 // finding the file in the box. It does the following tricks
 // to help:
 // - Adds the box prefix in case not passed.
-// - Removes underscore from the file name to find partials.
 func (bx *box) pathFor(base string) string {
-
-	file := strings.TrimPrefix(filepath.Base(base), "_")
-	base = filepath.Join(filepath.Dir(base), file)
-
 	if strings.HasPrefix(base, bx.prefix) {
 		return base
 	}

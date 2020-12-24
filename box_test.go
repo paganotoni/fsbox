@@ -171,7 +171,7 @@ func TestPathFor(t *testing.T) {
 
 	t.Run("Underscore", func(t *testing.T) {
 		path := b.pathFor("_a.txt")
-		if path != "testdata/a.txt" {
+		if path != "testdata/_a.txt" {
 			t.Errorf("Should have been %v but got %v", "a.txt", path)
 		}
 	})
