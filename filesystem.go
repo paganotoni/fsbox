@@ -16,7 +16,7 @@ type filesystem struct {
 // Open wraps the fs.Open method and uses os.Open in case application
 // is not running in production mode (GOENV=production).
 func (fsystem filesystem) Open(path string) (fs.File, error) {
-	if os.Getenv("GOENV") == "production" {
+	if os.Getenv("GO_ENV") == "production" {
 		return fsystem.FS.Open(path)
 	}
 
