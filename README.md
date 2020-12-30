@@ -2,12 +2,11 @@
 
 # FSbox
 
-FSbox is a [`packd.Box`](https://github.com/gobuffalo/packd) implementation that uses go 1.16's `io/fs` package.
+FSbox is a [`packd.Box`](https://github.com/gobuffalo/packd) implementation that uses go 1.16's `io/fs` package. It facilitates the packing of your assets, templates and other things into the Buffalo binary using the new `embed` and `io/fs` libraries and ditching `Packr` or any other third-party tool.
 
-### Important
+On development mode (GO_ENV != `production`) FSbox falls back to open files using `os.Open` to provide the ability to do changes in those files without the need to recompile the app, facilitating an agile and iterative approach while developing.
 
-- ⚠️ This package only works with Go 1.16 or higher version of it.
-- ⚠️ This package can be used with Buffalo v0.16.18 or highest version.
+⚠️ This package ONLY works with Go 1.16x or higher version of it.
 ## Usage
 
 You need to have a variable that embeds your templates and public folder. Then use that variable to instantiate two fsbox.
@@ -16,6 +15,7 @@ You need to have a variable that embeds your templates and public folder. Then u
 package app
 
 var (
+    
     //go:embed templates public
     fsys embed.FS
 
