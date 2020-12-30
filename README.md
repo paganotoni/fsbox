@@ -54,9 +54,3 @@ bapp.ServeFiles("/", app.AssetsBox)
 ### Can I use this in Buffalo?
 
 Yes, however this could imply some changes in your application layout and webpack configuration.
-
-### Pending Features
-
-**Development Mode**
-
- We should fall back to use file lookup instead of looking in the box while on development mode, otherwise we need recompilation to happen to see changes in templates.
