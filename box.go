@@ -22,16 +22,8 @@ var _ packd.Box = (*box)(nil)
 // box implementation for buffalo's Packd, this box aims to replace Packr Boxes
 // by using the new Go 1.16 fs.
 type box struct {
-	fsys   fs.FS
+	fsys   filesystem
 	prefix string
-}
-
-// New box with the given filesystem
-func New(fsys fs.FS, prefix string) *box {
-	return &box{
-		fsys:   fsys,
-		prefix: prefix,
-	}
 }
 
 func (bx *box) Open(path string) (http.File, error) {
