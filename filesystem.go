@@ -4,6 +4,8 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+
+	"github.com/paganotoni/fsbox/internal/env"
 )
 
 // filesystem allows us to wrap embedded file system search to
@@ -17,7 +19,7 @@ type filesystem struct {
 // Open wraps the fs.Open method and uses os.Open in case application
 // is running in development mode (GOENV=development).
 func (fsystem filesystem) Open(path string) (fs.File, error) {
-	if os.Getenv("GO_ENV") == "development" {
+	if env.Current() == env.Development {
 		return os.Open(filepath.Join(path))
 	}
 
