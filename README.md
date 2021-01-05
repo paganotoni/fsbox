@@ -4,24 +4,26 @@
 
 FSbox is a [`packd.Box`](https://github.com/gobuffalo/packd) implementation that uses go 1.16's `io/fs` package. It facilitates the packing of your assets, templates and other things into the Buffalo binary using the new `embed` and `io/fs` libraries and ditching `Packr` or any other third-party tool.
 
-On development mode (GO_ENV != `production`) FSbox falls back to open files using `os.Open` to provide the ability to do changes in those files without the need to recompile the app, facilitating an agile and iterative approach while developing.
+On development mode (GO_ENV == `development` or empty) FSbox falls back to open files using `os.Open` to provide the ability to do changes in those files without the need to recompile the app, facilitating an agile and iterative approach while developing.
 
 ⚠️ This package ONLY works with Go 1.16x or higher version of it.
 ## Usage
 
-You need to have a variable that embeds your templates and public folder. Then use that variable to instantiate two fsbox.
+You need to have a variable that embeds your templates and assets into the binary.
 
 ```go
+// embed.go
 package app
 
 var (
     
-    //go:embed templates public
+    //go:embed templates public migrations
     fsys embed.FS
 
     // The boxes your app may need.
-    AssetsBox  = fsbox.New(fsys, "public")
-    TemplatesBox = fsbox.New(fsys, "templates")
+    Assets  = fsbox.New(fsys, "public")
+    Templates = fsbox.New(fsys, "templates")
+    Migrations = fbox.New(fsys, "migrations")
 )
 ```
 
@@ -30,7 +32,7 @@ These two boxes will be used in your Buffalo application for plush templates and
 ```go
 ...
     // Adding custom partialFeeder
-    helpers["partialFeeder"] = app.TemplatesBox.FindString
+    helpers["partialFeeder"] = app.Templates.FindString
     
     // Render engine initialization
     Engine = render.New(render.Options{
@@ -53,4 +55,4 @@ bapp.ServeFiles("/", app.AssetsBox)
 ```
 ### Can I use this in Buffalo?
 
-Yes, however this could imply some changes in your application layout and webpack configuration.
+Yes, however this could imply some changes in your application configuration and packages.
