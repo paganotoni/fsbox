@@ -83,6 +83,10 @@ func (bx *box) Walk(wf packd.WalkFunc) error {
 			return err
 		}
 
+		if path == bx.prefix {
+			return nil
+		}
+
 		if d.IsDir() {
 			dir, err := packd.NewDir(path)
 			if err != nil {
@@ -95,6 +99,12 @@ func (bx *box) Walk(wf packd.WalkFunc) error {
 		f, err := bx.fsys.Open(path)
 		if err != nil {
 			return err
+		}
+
+		// Removing the prefix from the path
+		path = strings.Replace(path, bx.prefix, "", 1)
+		if strings.HasPrefix(path, "/") {
+			path = strings.Replace(path, "/", "", 1)
 		}
 
 		file, err := packd.NewFile(path, f)
@@ -116,6 +126,11 @@ func (bx *box) WalkPrefix(prefix string, wf packd.WalkFunc) error {
 			return nil
 		}
 
+		// Skipping if its the same root folder
+		if path == bx.prefix {
+			return nil
+		}
+
 		if d.IsDir() {
 			dir, err := packd.NewDir(path)
 			if err != nil {
@@ -128,6 +143,12 @@ func (bx *box) WalkPrefix(prefix string, wf packd.WalkFunc) error {
 		f, err := bx.fsys.Open(path)
 		if err != nil {
 			return err
+		}
+
+		// Removing the prefix from the path
+		path = strings.Replace(path, bx.prefix, "", 1)
+		if strings.HasPrefix(path, "/") {
+			path = strings.Replace(path, "/", "", 1)
 		}
 
 		file, err := packd.NewFile(path, f)
