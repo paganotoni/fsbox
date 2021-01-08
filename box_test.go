@@ -77,6 +77,7 @@ func TestList(t *testing.T) {
 	expected := []string{
 		"testdata/a.txt",
 		"testdata/b.txt",
+		"testdata/testdata/c.txt",
 	}
 
 	if strings.Join(received, "|") != strings.Join(expected, "|") {
@@ -123,6 +124,23 @@ func TestFindString(t *testing.T) {
 		bs, err := b.FindString("a.txt")
 		if err != nil {
 			t.Errorf("should got no error with a.txt, got %v", err)
+			return
+		}
+
+		if bs != string(xs) {
+			t.Errorf("contents seem invalid")
+			return
+		}
+	})
+
+	t.Run("File Exists on folder and subfolder same name", func(t *testing.T) {
+		f, _ := fsys.Open("testdata/testdata/c.txt")
+		xs, _ := ioutil.ReadAll(f)
+
+		b := New(fsys, "testdata")
+		bs, err := b.FindString("testdata/c.txt")
+		if err != nil {
+			t.Errorf("should got no error with c.txt, got %v", err)
 			return
 		}
 
