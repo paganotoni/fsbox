@@ -69,7 +69,7 @@ func (bx *box) Find(path string) ([]byte, error) {
 }
 
 func (bx *box) FindString(name string) (string, error) {
-	b, err := bx.Find(name)
+	b, err := bx.Find(filepath.Join(bx.prefix, name))
 	if err != nil {
 		return "", err
 	}
