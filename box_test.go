@@ -133,7 +133,7 @@ func TestFindString(t *testing.T) {
 		}
 	})
 
-	t.Run("File Exists on folder and subfolder same name", func(t *testing.T) {
+	t.Run("File Exists on folder with same prefix name", func(t *testing.T) {
 		f, _ := fsys.Open("testdata/testdata/c.txt")
 		xs, _ := ioutil.ReadAll(f)
 
@@ -164,7 +164,7 @@ func TestFindString(t *testing.T) {
 func TestHas(t *testing.T) {
 	t.Run("File Exists", func(t *testing.T) {
 		b := New(fsys, "testdata")
-		has := b.Has("testdata/a.txt")
+		has := b.Has("a.txt")
 		if !has {
 			t.Errorf("should return true for has(a.txt)")
 		}
@@ -182,7 +182,7 @@ func TestPathFor(t *testing.T) {
 
 	t.Run("With prefix", func(t *testing.T) {
 		path := b.pathFor("testdata/a.txt")
-		if path != "testdata/a.txt" {
+		if path != "testdata/testdata/a.txt" {
 			t.Errorf("Should have been %v but got %v", "a.txt", path)
 		}
 	})

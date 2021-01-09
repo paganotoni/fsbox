@@ -69,7 +69,7 @@ func (bx *box) Find(path string) ([]byte, error) {
 }
 
 func (bx *box) FindString(name string) (string, error) {
-	b, err := bx.Find(filepath.Join(bx.prefix, name))
+	b, err := bx.Find(name)
 	if err != nil {
 		return "", err
 	}
@@ -171,13 +171,7 @@ func (bx *box) Has(path string) bool {
 }
 
 // pathFor translates the required path to accommodate
-// finding the file in the box. It does the following tricks
-// to help:
-// - Adds the box prefix in case not passed.
+// finding the file in the box.
 func (bx *box) pathFor(base string) string {
-	if strings.HasPrefix(base, bx.prefix) {
-		return base
-	}
-
 	return filepath.Join(bx.prefix, base)
 }
