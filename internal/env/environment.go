@@ -1,6 +1,8 @@
 package env
 
-import "os"
+import (
+	"os"
+)
 
 // These is the place we put constants that will be used across the app
 // to start these 3 constants come very handy to know which environment
