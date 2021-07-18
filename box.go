@@ -6,7 +6,6 @@ import (
 	"errors"
 	"io/fs"
 	"net/http"
-	"path/filepath"
 	"strings"
 
 	"github.com/gobuffalo/packd"
@@ -179,5 +178,6 @@ func (bx *box) pathFor(base string) string {
 		return base
 	}
 
-	return filepath.Join(bx.prefix, base)
+	// Joins using slash because embed uses slash.
+	return strings.Join([]string{bx.prefix, base}, "/")
 }
